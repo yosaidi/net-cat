@@ -1,27 +1,27 @@
 package main
 
 import (
-	"fmt"
 	"netcat/server"
 	"os"
 )
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("Wrong number of arguments, usage: go run . [Port number] [IP adress]")
-		return
-	}
 
-	port := os.Args[1]
+	port := ""
 	ip := ""
-	if len(os.Args) == 2 {
-		ip = "localhost"
-	} else {
-		ip = os.Args[2]
+	if len(os.Args) ==1 {
+		port = "8989"
 	}
+	if len(os.Args) == 2  {
+		ip = "localhost"
+		port = os.Args[1]
+	} else if len(os.Args)==3 {
+		ip = os.Args[2]
+		port = os.Args[1]
+	}
+    
 
-	server := server.NewServer_(ip,port)
-    server.Start()
+	server := server.NewServer_(ip, port)
+	server.Start()
 
-	
 }

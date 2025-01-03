@@ -17,7 +17,7 @@ func (s *Server) Start() error {
 	ln, err := net.Listen(Type, fmt.Sprintf("%s:%s", s.IP, s.PORT))
 	HandleError(err)
 	defer ln.Close()
-	fmt.Println("Server started !")
+	fmt.Println("Server started at :",s.PORT)
 	s.ln = ln
 
 	go s.Accept()
@@ -41,7 +41,8 @@ func (s *Server) Accept() {
 
 		if len(s.clients) == 10 {
 			client.conn.Write([]byte("Server is full, 10 Users already connected.\n"))
-			client = Client{}
+			client.conn.Close() 
+			continue   
 		} else {
 			ascii := AsciiArt()
 			client.conn.Write([]byte(ascii))
