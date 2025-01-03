@@ -30,7 +30,10 @@ func (s *Server) Start() error {
 func (s *Server) Accept() {
 	for {
 		conn, err := s.ln.Accept()
-		HandleError(err)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
 		fmt.Println("New connection from :", conn.RemoteAddr().String())
 		client := Client{
 			conn: conn,
@@ -41,17 +44,38 @@ func (s *Server) Accept() {
 			client = Client{}
 		} else {
 			ascii := AsciiArt()
-			client.conn.Write([]byte(ascii + "Enter your name: "))
-			go s.Read(conn)
-		}
-	}
-}
+			client.conn.Write([]byte(ascii))
 
-func (s *Server) Read(conn net.Conn) {
-	defer conn.Close()
-	
-	for {
-		
-		
+			connectedusers = ""
+
+			for _, connected := range s.clients {
+				connectedusers += connected.Pseudo + ","
+			}
+			client.conn.Write([]byte("Welcome\n"))
+
+			if len(connectedusers) == 0 {
+				client.conn.Write([]byte("Server empty\n"))
+			} else {
+				client.conn.Write([]byte("Clients connected: " + "\033[34m" + connectedusers[:len(connectedusers)-2] + "\033[0m" + "\n"))
+			}
+			client.conn.Write([]byte("Enter your name: "))
+
+			duplicate, name := s.DuplicateName(conn)
+
+			for !duplicate {
+				duplicate, name = s.DuplicateName(conn)
+			}
+			client = s.Broadcast(client, name[:len(name)-1], "joined")
+
+			client = Client{
+				conn:   conn,
+				Pseudo: name[:len(name)-1],
+			}
+			s.mutex.Lock()
+			s.clients = append(s.clients, client)
+			s.mutex.Unlock()
+			fmt.Println("Number of clients connected: ", len(s.clients))
+			go s.ClientConnection(client)
+		}
 	}
 }

@@ -6,7 +6,7 @@ import (
 )
 
 type Server struct {
-	ln net.Listener
+	ln      net.Listener
 	clients []Client
 	mutex   sync.Mutex
 	IP      string
@@ -14,13 +14,13 @@ type Server struct {
 	quich   chan struct{}
 }
 
-
-type Client struct{
-    Pseudo string
-     conn net.Conn
-
+type Client struct {
+	Pseudo string
+	conn   net.Conn
 }
 
 const (
 	Type = "tcp"
 )
+
+var connectedusers string

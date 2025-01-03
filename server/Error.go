@@ -1,11 +1,10 @@
 package server
 
-import (
-	"log"
-)
+import "fmt"
 
 func HandleError(err error) {
 	if err != nil {
-		log.Fatal(err)
+		fmt.Println("Error encountered: ", err)
+		return
 	}
 }
