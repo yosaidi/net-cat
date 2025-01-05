@@ -13,7 +13,6 @@ func main() {
 		port = "8989"
 	}
 	if len(os.Args) == 2  {
-		ip = "localhost"
 		port = os.Args[1]
 	} else if len(os.Args)==3 {
 		ip = os.Args[2]

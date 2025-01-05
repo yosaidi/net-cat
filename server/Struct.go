@@ -19,9 +19,6 @@ type Client struct {
 	conn   net.Conn
 }
 
-const (
-	Type = "tcp"
-)
 
-var connectedusers string
+var connectedusers []string
  
