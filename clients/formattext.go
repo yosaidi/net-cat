@@ -7,11 +7,13 @@ import (
 )
 
 func FormatText(pseudo, message string) string {
-	timestamp := time.Now().Format("2005-09-16 15:03:30")
+	timestamp := time.Now().Format("2006-01-02 15:04:05")
 	input := fmt.Sprintf("[%s][%s]:%s", timestamp, pseudo, message)
 	return strings.TrimSpace(input)
 
 }
+
+
 
 func (c *EachClient) FullGroup() {
 	_, err := fmt.Fprintf(c.Conn, "the groupchat is at full capacity, try again later!")
@@ -50,10 +52,8 @@ func ValidPseudo(client *EachClient, pseudo string, clients *AllClients) (bool, 
 	if _, exist := clients.Clients[pseudo]; exist {
 		_, err := fmt.Fprint(client.Conn, "Specified name has already been taken\nPlease try another name...\n[ENTER YOUR NAME]:")
 		if err != nil {
-			clients.Mu.Unlock()
 			return false, err
 		}
-		clients.Mu.Unlock()
 		return false, nil
 	}
 	return true, nil

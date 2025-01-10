@@ -14,16 +14,16 @@ func main() {
 		log.Println("[USAGE]: ./TCPChat $port")
 		return
 	}
-	if len(os.Args) > 2 {
+	if len(os.Args) == 2 {
 		port = os.Args[1]
 	}
 
 	s, err := server.NewServer(port)
-	defer s.Ln.Close()
 	if err != nil {
 		log.Fatal(err)
 		return
 	}
+	defer s.Ln.Close()
 	fmt.Println("Starting the server at localhost:", port)
 
 	if err := s.RunServer(); err != nil {
