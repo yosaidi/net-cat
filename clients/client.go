@@ -140,7 +140,6 @@ func RemoveClient(chat *Chat, client string, statusch chan ConnectionStatus) {
 	chat.Clients.Mu.Lock()
 	defer chat.Clients.Mu.Unlock()
 	delete(chat.Clients.Clients, client)
-	fmt.Printf("Client %s removed from chat\n", client)
 	ConnectionConfig("offline",client,statusch)
 }
 

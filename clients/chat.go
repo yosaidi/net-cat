@@ -88,5 +88,5 @@ func connectionMessage(name string, isConnected bool) string {
 	if isConnected {
 		return fmt.Sprintf("\n%s has joined the groupchat \n", name)
 	}
-	return fmt.Sprintf("\n%s has left the groupchat", name)
+	return fmt.Sprintf("\n%s has left the groupchat\n", name)
 }
