@@ -2,6 +2,7 @@ package clients
 
 import (
 	"fmt"
+	"net"
 	"strings"
 	"time"
 )
@@ -15,8 +16,8 @@ func FormatText(pseudo, message string) string {
 
 
 
-func (c *EachClient) FullGroup() {
-	_, err := fmt.Fprintf(c.Conn, "the groupchat is at full capacity, try again later!")
+func  FullGroup(conn net.Conn) {
+	_, err := fmt.Fprintf(conn, "the groupchat is at full capacity, try again later!")
 	if err != nil {
 		fmt.Println(err)
 	}

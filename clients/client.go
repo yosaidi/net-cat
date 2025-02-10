@@ -21,7 +21,6 @@ type EachClient struct {
 	Conn net.Conn
 }
 
-const maxclients = 10
 
 func NewClients(mu *sync.Mutex) *AllClients {
 	return &AllClients{
@@ -45,14 +44,6 @@ func (c *AllClients) AddClient(pseudo string, client net.Conn) {
 func (c *EachClient) HandleClient(statusch chan ConnectionStatus, messagech chan BroadcastMessage, chat *Chat) {
 	defer c.Conn.Close()
 
-	chat.Clients.Mu.Lock()
-
-	if len(chat.Clients.Clients) >= maxclients {
-		chat.Clients.Mu.Unlock()
-		c.FullGroup()
-		return
-	}
-	chat.Clients.Mu.Unlock()
 
 	welcomemsg := logo.Logo() + "\n[ENTER YOUR NAME]:"
 

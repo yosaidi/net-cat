@@ -18,7 +18,7 @@ func main() {
 		port = os.Args[1]
 	}
 
-	s, err := server.NewServer(port)
+	s, err := server.NewServer(port,10)
 	if err != nil {
 		log.Fatal(err)
 		return
