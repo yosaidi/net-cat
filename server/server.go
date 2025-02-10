@@ -12,7 +12,7 @@ type Server struct {
 }
 
 func NewServer(adress string) (*Server, error) {
-	listener, err := net.Listen("tcp", "localhost:"+adress)
+	listener, err := net.Listen("tcp", ":"+adress)
 
 	if err != nil {
 		return nil, err
